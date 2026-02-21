@@ -54,11 +54,15 @@ node index.js --help
 ### Clients
 
 ```bash
-# Overview: name, category, IP, MAC, connection type
+# Overview: hostname, IP, category, MAC, connection type
 node index.js clients list
 node index.js clients list --type wireless
 node index.js clients list --type wired
 node index.js clients list --json
+
+# Connectivity health: signal, satisfaction, uptime, roams — sorted Poor → Good
+node index.js clients health
+node index.js clients health --json
 
 # Full stats: traffic, signal, rates, uptime (3 tables)
 node index.js clients stats
@@ -70,6 +74,26 @@ node index.js clients get <uuid>
 # All raw stats for one client (legacy API, by MAC)
 node index.js clients get-stats <mac>
 ```
+
+### Snapshots
+
+```bash
+# Save a snapshot of current client state
+node index.js snapshots create
+node index.js snapshots create --label "before update"
+
+# List all saved snapshots
+node index.js snapshots list
+
+# Show summary of a saved snapshot
+node index.js snapshots show <id>
+
+# Compare current clients against a saved snapshot
+# Shows new/disappeared clients and traffic delta
+node index.js snapshots compare <id>
+```
+
+Snapshots are stored in `~/.config/unifi-cli/snapshots/` (chmod 600).
 
 ### Devices
 
@@ -101,7 +125,7 @@ node index.js clients stats --json | jq '.[] | {name, tx_bytes, rx_bytes}'
 
 ## clients stats output
 
-Three tables per run:
+Three tables per run (sorted by TX descending):
 
 | Table | Fields |
 |-------|--------|
