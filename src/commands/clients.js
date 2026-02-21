@@ -36,7 +36,7 @@ function healthRating(c) {
   }
   const sat = c.satisfaction ?? c.satisfaction_now ?? -1;
   const sig = c.signal ?? -100;
-  if (sat >= 80 && sig >= -65) return 'Good';
+  if (sat >= 80 && sig >= -70) return 'Good';
   if (sat >= 50 || sig >= -75) return 'Fair';
   return 'Poor';
 }
