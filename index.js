@@ -8,6 +8,7 @@ import { registerClientsCommand } from './src/commands/clients.js';
 import { registerDevicesCommand } from './src/commands/devices.js';
 import { registerFirewallCommand } from './src/commands/firewall.js';
 import { registerNetworksCommand } from './src/commands/networks.js';
+import { registerSnapshotsCommand } from './src/commands/snapshots.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
@@ -24,5 +25,6 @@ registerClientsCommand(program);
 registerDevicesCommand(program);
 registerFirewallCommand(program);
 registerNetworksCommand(program);
+registerSnapshotsCommand(program);
 
 program.parse();
