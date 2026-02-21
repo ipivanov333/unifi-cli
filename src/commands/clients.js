@@ -2,6 +2,7 @@ import { config } from '../config.js';
 import { resolveSiteId } from '../api/sites.js';
 import { listClients, getClient } from '../api/clients.js';
 import { printTable, printJSON, printCount } from '../output.js';
+import { classifyByName } from '../classify.js';
 
 function formatDate(iso) {
   if (!iso) return '—';
@@ -13,7 +14,7 @@ export function registerClientsCommand(program) {
 
   clients
     .command('list')
-    .description('List connected clients')
+    .description('List connected clients with IP, MAC, and device category')
     .option('--type <type>', 'Filter by type: wired, wireless, vpn, teleport')
     .option('--limit <n>', 'Max results (default 200)', '200')
     .option('--json', 'Output raw JSON')
@@ -27,11 +28,13 @@ export function registerClientsCommand(program) {
       }
 
       printTable(
-        ['Name', 'Type', 'IP Address', 'Connected At'],
+        ['Name', 'Category', 'Con', 'IP Address', 'MAC Address', 'Connected At'],
         (result.data ?? []).map((c) => [
           c.name ?? '(unnamed)',
-          c.type ?? '—',
+          classifyByName(c.name),
+          c.type === 'WIRELESS' ? 'WiFi' : c.type === 'WIRED' ? 'Wired' : c.type ?? '—',
           c.ipAddress ?? '—',
+          c.macAddress ?? '—',
           formatDate(c.connectedAt),
         ])
       );
