@@ -2,7 +2,7 @@ import { config } from '../config.js';
 import { resolveSiteId } from '../api/sites.js';
 import { listClients, getClient } from '../api/clients.js';
 import { printTable, printJSON, printCount } from '../output.js';
-import { classifyByName } from '../classify.js';
+import { classify } from '../classify.js';
 
 function formatDate(iso) {
   if (!iso) return '—';
@@ -31,7 +31,7 @@ export function registerClientsCommand(program) {
         ['Name', 'Category', 'Con', 'IP Address', 'MAC Address', 'Connected At'],
         (result.data ?? []).map((c) => [
           c.name ?? '(unnamed)',
-          classifyByName(c.name),
+          classify(c.name, c.macAddress),
           c.type === 'WIRELESS' ? 'WiFi' : c.type === 'WIRED' ? 'Wired' : c.type ?? '—',
           c.ipAddress ?? '—',
           c.macAddress ?? '—',
