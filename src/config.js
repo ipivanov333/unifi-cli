@@ -12,7 +12,7 @@ if (existsSync(envPath)) {
   dotenv.config({ path: envPath });
 }
 
-const { UNIFI_HOST, UNIFI_API_KEY, UNIFI_SITE_ID } = process.env;
+const { UNIFI_HOST, UNIFI_API_KEY, UNIFI_SITE_ID, UNIFI_SITE_NAME } = process.env;
 
 if (!UNIFI_HOST) {
   console.error('Error: UNIFI_HOST is not set. Add your router IP to .env.');
@@ -28,4 +28,5 @@ export const config = {
   host: UNIFI_HOST,
   apiKey: UNIFI_API_KEY,
   siteId: UNIFI_SITE_ID?.trim() || null,
+  siteName: UNIFI_SITE_NAME?.trim() || 'default',
 };
