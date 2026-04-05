@@ -78,12 +78,12 @@ node index.js clients list --json
 ┌──────────────────────────────────────────┬────────────────┬─────────────────┬──────┬───────────────────┬────────────────────────┐
 │ Hostname                                 │ IP Address     │ Category        │ Con  │ MAC Address       │ Connected At           │
 ├──────────────────────────────────────────┼────────────────┼─────────────────┼──────┼───────────────────┼────────────────────────┤
-│ Nest-Thermostat-1650                     │ 192.168.x.x  │ Thermostat      │ WiFi │ 3c:31:74:xx:xx:xx │ 2/19/2026, 5:31:20 PM  │
-│ Amazon Fire TV with 4K Ultra HD          │ 192.168.x.x  │ TV              │ WiFi │ b0:f7:c4:xx:xx:xx │ 3/6/2026,  4:48:07 PM  │
-│ RingStickUpCam-21                        │ 192.168.x.x  │ Security Camera │ WiFi │ 64:9a:63:xx:xx:xx │ 3/10/2026, 10:16:54 AM │
-│ NVIDIA Shield TV                         │ 192.168.x.x   │ TV              │ WiFi │ 00:04:4b:xx:xx:xx │ 3/11/2026, 10:00:10 PM │
-│ Pihole                                   │ 192.168.x.x   │ Network         │ Wired│ b8:27:eb:xx:xx:xx │ 3/21/2026, 3:18:39 AM  │
-│ bosch-dishwasher                         │ 192.168.x.x  │ Appliance       │ WiFi │ 38:b4:d3:xx:xx:xx │ 3/20/2026, 2:30:39 PM  │
+│ Nest-Thermostat-1650                     │ 192.168.x.x    │ Thermostat      │ WiFi │ 3c:31:74:xx:xx:xx │ 2/19/2026, 5:31:20 PM  │
+│ Amazon Fire TV with 4K Ultra HD          │ 192.168.x.x    │ TV              │ WiFi │ b0:f7:c4:xx:xx:xx │ 3/6/2026,  4:48:07 PM  │
+│ RingStickUpCam-21                        │ 192.168.x.x    │ Security Camera │ WiFi │ 64:9a:63:xx:xx:xx │ 3/10/2026, 10:16:54 AM │
+│ NVIDIA Shield TV                         │ 192.168.x.x    │ TV              │ WiFi │ 00:04:4b:xx:xx:xx │ 3/11/2026, 10:00:10 PM │
+│ Pihole                                   │ 192.168.x.x    │ Network         │ Wired│ b8:27:eb:xx:xx:xx │ 3/21/2026, 3:18:39 AM  │
+│ bosch-dishwasher                         │ 192.168.x.x    │ Appliance       │ WiFi │ 38:b4:d3:xx:xx:xx │ 3/20/2026, 2:30:39 PM  │
 └──────────────────────────────────────────┴────────────────┴─────────────────┴──────┴───────────────────┴────────────────────────┘
 Showing 6 of 36 total
 ```
@@ -107,11 +107,11 @@ node index.js clients health --json
 ┌────────────────────┬────────────────┬────────┬─────────┬──────────┬──────────────┬──────────┬──────────┬─────────┬───────┬──────────────────────────┐
 │ Hostname           │ IP Address     │ Health │ Signal  │ Noise    │ Satisfaction │ TX rate  │ RX rate  │ Uptime  │ Roams │ AP                       │
 ├────────────────────┼────────────────┼────────┼─────────┼──────────┼──────────────┼──────────┼──────────┼─────────┼───────┼──────────────────────────┤
-│ my-macbook        │ 192.168.x.x  │ Fair   │ -71 dBm │ -106 dBm │ 99%          │ 243 Mbps │ 135 Mbps │ 49m     │ —     │ AP-Upstairs-Office │
-│ XBOX               │ 192.168.x.x  │ Fair   │ -74 dBm │ -106 dBm │ 100%         │ 104 Mbps │ 1 Mbps   │ 6d 17h  │ —     │ AP-Upstairs-Office │
-│ iPhone             │ 192.168.x.x  │ Fair   │ -75 dBm │ -103 dBm │ 100%         │ 234 Mbps │ 98 Mbps  │ 6h 29m  │ 36    │ AP-Kitchen         │
-│ Nest-Thermostat    │ 192.168.x.x  │ Good   │ -61 dBm │ -103 dBm │ 96%          │ 72 Mbps  │ 72 Mbps  │ 14d 19h │ 6     │ AP-Kitchen         │
-│ RokuUltra          │ 192.168.x.x  │ Good   │ -65 dBm │ -103 dBm │ 97%          │ 104 Mbps │ 130 Mbps │ 14d 19h │ —     │ AP-Kitchen         │
+│ my-macbook         │ 192.168.x.x    │ Fair   │ -71 dBm │ -106 dBm │ 99%          │ 243 Mbps │ 135 Mbps │ 49m     │ —     │ AP-Upstairs-Office       │
+│ my-xbox            │ 192.168.x.x    │ Fair   │ -74 dBm │ -106 dBm │ 100%         │ 104 Mbps │ 1 Mbps   │ 6d 17h  │ —     │ AP-Upstairs-Office       │
+│ my-iphone          │ 192.168.x.x    │ Fair   │ -75 dBm │ -103 dBm │ 100%         │ 234 Mbps │ 98 Mbps  │ 6h 29m  │ 36    │ AP-Kitchen               │
+│ Nest-Thermostat    │ 192.168.x.x    │ Good   │ -61 dBm │ -103 dBm │ 96%          │ 72 Mbps  │ 72 Mbps  │ 14d 19h │ 6     │ AP-Kitchen               │
+│ RokuUltra          │ 192.168.x.x    │ Good   │ -65 dBm │ -103 dBm │ 97%          │ 104 Mbps │ 130 Mbps │ 14d 19h │ —     │ AP-Kitchen               │
 └────────────────────┴────────────────┴────────┴─────────┴──────────┴──────────────┴──────────┴──────────┴─────────┴───────┴──────────────────────────┘
 ```
 
