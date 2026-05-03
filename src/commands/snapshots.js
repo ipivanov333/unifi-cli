@@ -65,10 +65,11 @@ export function registerSnapshotsCommand(program) {
         Object.entries(s.summary.byCategory).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, String(v)])
       );
 
+      const { topTraffic } = buildSummary(s.clients);
       console.log('\n── Top 10 by Traffic (RX) ──────────────────────────────────────\n');
       printTable(
         ['Hostname', 'IP', 'RX', 'TX'],
-        s.summary.topTraffic.map(c => [c.name, c.ip ?? '—', c.rx, c.tx])
+        topTraffic.map(c => [c.name, c.ip ?? '—', c.rx, c.tx])
       );
     });
 
