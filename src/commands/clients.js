@@ -95,7 +95,7 @@ export function registerClientsCommand(program) {
 
       console.log('\n── Wireless Health ────────────────────────────────────────────\n');
       printTable(
-        ['Hostname', 'IP Address', 'Health', 'Signal', 'Noise', 'Satisfaction', 'TX rate', 'RX rate', 'Uptime', 'Idle', 'Roams', 'AP'],
+        ['Hostname', 'IP Address', 'Health', 'Signal', 'Noise', 'Satisfaction', 'RX rate', 'TX rate', 'Uptime', 'Idle', 'Roams', 'AP'],
         wireless.map((c) => [
           name(c),
           ip(c),
@@ -103,8 +103,8 @@ export function registerClientsCommand(program) {
           signal(c.signal),
           signal(c.noise),
           c.satisfaction != null ? `${c.satisfaction}%` : '—',
-          mbps(c.tx_rate),
-          mbps(c.rx_rate),
+          mbps(c.tx_rate),  // UDM→client = download = RX
+          mbps(c.rx_rate),  // client→UDM = upload = TX
           uptime(c.uptime),
           c.idletime != null ? `${c.idletime}s` : '—',
           c.roam_count != null ? String(c.roam_count) : '—',
@@ -145,9 +145,9 @@ export function registerClientsCommand(program) {
       // Sort by tx_bytes descending — heaviest users first
       all.sort((a, b) => (b.tx_bytes ?? 0) - (a.tx_bytes ?? 0));
 
-      console.log('\n── Traffic & Packets (sorted by TX) ───────────────────────────\n');
+      console.log('\n── Traffic & Packets (sorted by RX) ───────────────────────────\n');
       printTable(
-        ['Hostname', 'IP Address', 'TX', 'RX', 'TX pkts', 'RX pkts', 'TX retries', 'Uptime'],
+        ['Hostname', 'IP Address', 'RX', 'TX', 'RX pkts', 'TX pkts', 'TX retries', 'Uptime'],
         all.map((c) => [
           name(c),
           ip(c),
@@ -163,7 +163,7 @@ export function registerClientsCommand(program) {
       const wireless = all.filter(c => !c.is_wired);
       console.log('\n── Wireless Signal & Rates ────────────────────────────────────\n');
       printTable(
-        ['Hostname', 'IP Address', 'SSID', 'Band', 'Ch/Width', 'Std', 'Signal', 'RSSI', 'TX rate', 'RX rate', 'Satisfaction'],
+        ['Hostname', 'IP Address', 'SSID', 'Band', 'Ch/Width', 'Std', 'Signal', 'RSSI', 'RX rate', 'TX rate', 'Satisfaction'],
         wireless.map((c) => [
           name(c),
           ip(c),

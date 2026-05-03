@@ -35,8 +35,8 @@ export function buildSummary(clients) {
       name: c.name ?? c.hostname ?? c.mac,
       mac:  c.mac,
       ip:   c.ip ?? c.last_ip ?? null,
-      tx:   bytes(c.tx_bytes),
-      rx:   bytes(c.rx_bytes),
+      rx:   bytes(c.tx_bytes),  // UDM→client = download = RX
+      tx:   bytes(c.rx_bytes),  // client→UDM = upload = TX
       tx_bytes: c.tx_bytes ?? 0,
       rx_bytes: c.rx_bytes ?? 0,
     })),

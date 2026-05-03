@@ -65,10 +65,10 @@ export function registerSnapshotsCommand(program) {
         Object.entries(s.summary.byCategory).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, String(v)])
       );
 
-      console.log('\n── Top 10 by Traffic (TX) ──────────────────────────────────────\n');
+      console.log('\n── Top 10 by Traffic (RX) ──────────────────────────────────────\n');
       printTable(
-        ['Hostname', 'IP', 'TX', 'RX'],
-        s.summary.topTraffic.map(c => [c.name, c.ip ?? '—', c.tx, c.rx])
+        ['Hostname', 'IP', 'RX', 'TX'],
+        s.summary.topTraffic.map(c => [c.name, c.ip ?? '—', c.rx, c.tx])
       );
     });
 
@@ -94,8 +94,8 @@ export function registerSnapshotsCommand(program) {
         const prev = snapByMac.get(c.mac);
         return {
           ...c,
-          tx_delta: (c.tx_bytes ?? 0) - (prev.tx_bytes ?? 0),
-          rx_delta: (c.rx_bytes ?? 0) - (prev.rx_bytes ?? 0),
+          tx_delta: Math.max(0, (c.tx_bytes ?? 0) - (prev.tx_bytes ?? 0)),
+          rx_delta: Math.max(0, (c.rx_bytes ?? 0) - (prev.rx_bytes ?? 0)),
         };
       }).filter(c => c.tx_delta > 0 || c.rx_delta > 0)
         .sort((a, b) => b.tx_delta - a.tx_delta);
@@ -146,14 +146,14 @@ export function registerSnapshotsCommand(program) {
 
       // Traffic delta
       if (both.length > 0) {
-        console.log(`\n── Traffic since snapshot (top 10) ─────────────────────────────\n`);
+        console.log(`\n── Traffic since snapshot (top 10 by RX) ───────────────────────\n`);
         printTable(
-          ['Hostname', 'IP Address', '+TX', '+RX'],
+          ['Hostname', 'IP Address', '+RX', '+TX'],
           both.slice(0, 10).map(c => [
             c.name ?? c.hostname ?? c.mac,
             c.ip ?? c.last_ip ?? '—',
-            fmtBytes(c.tx_delta),
-            fmtBytes(c.rx_delta),
+            fmtBytes(c.tx_delta),  // tx_delta = UDM→client = download = RX
+            fmtBytes(c.rx_delta),  // rx_delta = client→UDM = upload = TX
           ])
         );
       }

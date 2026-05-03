@@ -125,8 +125,8 @@ Three tables of full stats for all clients, sourced from the legacy controller A
 
 | Table | Fields |
 |-------|--------|
-| **Traffic & Packets** | TX/RX bytes, TX/RX packets, TX retries, uptime — sorted by TX desc |
-| **Wireless Signal & Rates** | SSID, band, channel, WiFi standard, signal dBm, noise, RSSI, TX/RX rate, satisfaction |
+| **Traffic & Packets** | RX/TX bytes, RX/TX packets, TX retries, uptime — sorted by RX desc |
+| **Wireless Signal & Rates** | SSID, band, channel, WiFi standard, signal dBm, noise, RSSI, RX/TX rate, satisfaction |
 | **Device & Network Info** | Network, VLAN, IPv6, first/last seen, roam count, idle time |
 
 ```bash
@@ -265,7 +265,9 @@ node index.js snapshots compare 2026-02-21T02-22-08 --json | jq '.appeared[]'
 The tool uses two API layers against the UDM Pro:
 
 - **Integration API** (`/proxy/network/integration/v1/`) — official, limited fields (name, IP, MAC, type)
-- **Legacy controller API** (`/proxy/network/api/s/{site}/stat/sta`) — full stats: TX/RX bytes and packets, retries, signal, RSSI, noise, channel, WiFi standard, SSID, uptime, roam count, IPv6
+- **Legacy controller API** (`/proxy/network/api/s/{site}/stat/sta`) — full stats: RX/TX bytes and packets, retries, signal, RSSI, noise, channel, WiFi standard, SSID, uptime, roam count, IPv6
+
+> **Note on RX/TX direction:** The legacy API reports traffic from the **UDM's perspective** — `tx_bytes` means the UDM transmitted to the client (i.e. the client **downloaded**), and `rx_bytes` means the UDM received from the client (i.e. the client **uploaded**). This CLI displays them as **RX** (download) and **TX** (upload) from the client's perspective.
 
 Both use the same `X-API-Key` header over HTTPS. Self-signed cert is accepted (`rejectUnauthorized: false`).
 
