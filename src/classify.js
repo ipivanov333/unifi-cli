@@ -2,9 +2,9 @@
 
 const NAME_RULES = [
   // Phones
-  [/iphone|pixel|galaxy|android.*phone/i, 'Phone'],
+  [/apple iphone|iphone|pixel|galaxy|android.*phone/i, 'Phone'],
   // Tablets
-  [/ipad/i, 'Tablet'],
+  [/apple ipad|ipad/i, 'Tablet'],
   // Laptops / desktops
   [/macbook|mac.*pro|mac.*mini|mac.*air|apple.*laptop|imac|windows.*pc|desktop|\bMBP\b/i, 'Computer'],
   // Smart TVs / displays
