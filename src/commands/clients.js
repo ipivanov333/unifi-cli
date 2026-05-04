@@ -1,7 +1,7 @@
 import { config } from '../config.js';
 import { resolveSiteId } from '../api/sites.js';
 import { listClients, getClient } from '../api/clients.js';
-import { getClientStats } from '../api/legacy.js';
+import { getEnrichedClientStats } from '../api/legacy.js';
 import { printTable, printJSON, printCount } from '../output.js';
 import { classify } from '../classify.js';
 import { probeIphone } from '../probe.js';
@@ -97,7 +97,7 @@ export function registerClientsCommand(program) {
     .description('Connectivity health: signal, satisfaction, uptime, idle, roams')
     .option('--json', 'Output raw JSON')
     .action(async (opts) => {
-      const all = await getClientStats();
+      const all = await getEnrichedClientStats();
       if (opts.json) { printJSON(all); return; }
 
       // Sort: Poor first, then Fair, then Good; within group by satisfaction asc
@@ -157,7 +157,7 @@ export function registerClientsCommand(program) {
     .description('Full stats: traffic, signal/rates, device info')
     .option('--json', 'Output raw JSON')
     .action(async (opts) => {
-      const all = await getClientStats();
+      const all = await getEnrichedClientStats();
       if (opts.json) { printJSON(all); return; }
 
       // Sort by tx_bytes descending — heaviest users first
@@ -236,7 +236,7 @@ export function registerClientsCommand(program) {
     .description('All legacy stats for one client by MAC address')
     .option('--json', 'Output raw JSON')
     .action(async (mac, opts) => {
-      const all = await getClientStats();
+      const all = await getEnrichedClientStats();
       const c = all.find((x) => x.mac?.toLowerCase() === mac.toLowerCase());
       if (!c) { console.error(`No client found with MAC ${mac}`); process.exit(1); }
       if (opts.json) { printJSON(c); return; }

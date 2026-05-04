@@ -7,10 +7,10 @@ const NAME_RULES = [
   [/apple ipad|ipad/i, 'Tablet'],
   // Laptops / desktops
   [/macbook|mac.*pro|mac.*mini|mac.*air|apple.*laptop|imac|windows.*pc|desktop|\bMBP\b/i, 'Computer'],
+  // Streaming / media — before TV so "Shield TV" / "Fire TV" don't match tv\b
+  [/nvidia.*shield|chromecast|roku|fire.*tv|apple.*tv|android.*tv/i, 'Media Player'],
   // Smart TVs / displays
   [/lgwebostv|bravia|vizio|samsung.*tv|bathroom.?tv|tv\b/i, 'TV'],
-  // Streaming / media
-  [/nvidia.*shield|chromecast|roku|fire.*tv|apple.*tv|android.*tv/i, 'Media Player'],
   // Gaming
   [/xbox|playstation|nintendo|steam.*deck/i, 'Gaming'],
   // Smart speakers / hubs
@@ -25,6 +25,10 @@ const NAME_RULES = [
   [/shark|roomba|roborock|irobot|vacuum/i, 'Robot Vacuum'],
   // Network infrastructure
   [/pihole|pi.hole|unifi|switch|router|access.*point|ripe.*probe|mikrotik/i, 'Network'],
+  // EV chargers
+  [/\bcs_[0-9a-f]+|chargepoint|juicebox|wallbox/i, 'EV Charger'],
+  // Irrigation controllers
+  [/rainbird|rachio|orbit.*bhyve|bhyve/i, 'Irrigation'],
   // Smart plugs / IoT
   [/wemo|kasa|tapo|shelly|tuya|espressif|esp8266|esp32/i, 'IoT / Smart Plug'],
   // Printers — HP network printers use NPI prefix, plus generic terms

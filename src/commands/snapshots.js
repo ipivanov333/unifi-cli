@@ -1,4 +1,4 @@
-import { getClientStats } from '../api/legacy.js';
+import { getEnrichedClientStats } from '../api/legacy.js';
 import { saveSnapshot, loadSnapshot, listSnapshots, buildSummary } from '../snapshots.js';
 import { printTable, printJSON } from '../output.js';
 import chalk from 'chalk';
@@ -18,7 +18,7 @@ export function registerSnapshotsCommand(program) {
     .option('--label <text>', 'Optional label for this snapshot')
     .option('--json', 'Print saved snapshot as JSON')
     .action(async (opts) => {
-      const clients = await getClientStats();
+      const clients = await getEnrichedClientStats();
       const { id, path } = saveSnapshot(clients, opts.label);
       if (opts.json) { printJSON(loadSnapshot(id)); return; }
       console.log(`\nSnapshot saved: ${chalk.cyan(id)}`);
@@ -80,7 +80,7 @@ export function registerSnapshotsCommand(program) {
     .option('--json', 'Output raw JSON')
     .action(async (id, opts) => {
       const [current, snapshot] = await Promise.all([
-        getClientStats(),
+        getEnrichedClientStats(),
         Promise.resolve(loadSnapshot(id)),
       ]);
 
