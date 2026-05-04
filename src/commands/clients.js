@@ -77,10 +77,11 @@ export function registerClientsCommand(program) {
         }
       }
 
+      const trunc = (s, n) => s && s.length > n ? s.slice(0, n - 1) + '…' : (s ?? '—');
       printTable(
         ['Hostname', 'IP Address', 'Category', 'Con', 'MAC Address', 'Connected At'],
         clients.map((c) => [
-          c.name ?? '(unnamed)',
+          trunc(c.name, 32),
           c.ipAddress ?? '—',
           categoryMap.get(c.macAddress),
           c.type === 'WIRELESS' ? 'WiFi' : c.type === 'WIRED' ? 'Wired' : c.type ?? '—',
