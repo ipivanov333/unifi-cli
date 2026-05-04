@@ -4,6 +4,7 @@ import { listClients, getClient } from '../api/clients.js';
 import { getClientStats } from '../api/legacy.js';
 import { printTable, printJSON, printCount } from '../output.js';
 import { classify } from '../classify.js';
+import { probeIphone } from '../probe.js';
 import { bytes, mbps, uptime, signal, packets } from '../format.js';
 
 function formatDate(iso) {
@@ -53,18 +54,35 @@ export function registerClientsCommand(program) {
     .description('Overview: hostname, IP, category, MAC, connection type')
     .option('--type <type>', 'Filter by type: wired, wireless, vpn, teleport')
     .option('--limit <n>', 'Max results (default 200)', '200')
+    .option('--probe', 'Probe unclassified wireless clients for iPhone (port 62078)')
     .option('--json', 'Output raw JSON')
     .action(async (opts) => {
       const siteId = await resolveSiteId(config.siteId);
       const result = await listClients(siteId, { type: opts.type, limit: parseInt(opts.limit) });
       if (opts.json) { printJSON(result.data); return; }
 
+      const clients = result.data ?? [];
+
+      const categoryMap = new Map(clients.map(c => [c.macAddress, classify(c.name, c.macAddress)]));
+
+      if (opts.probe) {
+        const unclassifiedWireless = clients.filter(
+          c => c.type === 'WIRELESS' && categoryMap.get(c.macAddress) === '?' && c.ipAddress
+        );
+        if (unclassifiedWireless.length > 0) {
+          process.stderr.write(`Probing ${unclassifiedWireless.length} unclassified wireless client(s)...\n`);
+          await Promise.all(unclassifiedWireless.map(async (c) => {
+            if (await probeIphone(c.ipAddress)) categoryMap.set(c.macAddress, 'Phone');
+          }));
+        }
+      }
+
       printTable(
         ['Hostname', 'IP Address', 'Category', 'Con', 'MAC Address', 'Connected At'],
-        (result.data ?? []).map((c) => [
+        clients.map((c) => [
           c.name ?? '(unnamed)',
           c.ipAddress ?? '—',
-          classify(c.name, c.macAddress),
+          categoryMap.get(c.macAddress),
           c.type === 'WIRELESS' ? 'WiFi' : c.type === 'WIRED' ? 'Wired' : c.type ?? '—',
           c.macAddress ?? '—',
           formatDate(c.connectedAt),
